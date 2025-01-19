@@ -1,0 +1,57 @@
+services:
+  mongo:
+    image: mongo:latest
+    container_name: hotel-booking-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: hotel-booking-server
+    ports:
+      - "4000:4000"
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URI: mongodb://hotel-booking-db:27017/hotelbooking
+      JWT_SECRET: mysecretkey
+      NODE_ENV: development
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: hotel-booking-client
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+  backend-tests:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: hotel-booking-server-tests
+    ports:
+      - "4000:4000"
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URI_TEST: mongodb://hotel-booking-db:27017/hotelbooking-test
+      JWT_SECRET: mysecretkey
+      NODE_ENV: test
+    command: [ "npm","test" ,"test" ]
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    profiles:
+      - test
+
+volumes:
+  mongo-data:

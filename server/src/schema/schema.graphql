@@ -1,0 +1,170 @@
+scalar DateTime
+scalar EmailAddress
+
+type Query {
+    # User queries
+    me: User
+    user(id: ID!): User
+    users: [User!]!
+
+    # Hotel queries
+    hotel(id: ID!): Hotel
+    hotels(amenities: [String!], minPrice: Float, maxPrice: Float, rating: Float, location: String): [Hotel!]!
+    availableRooms(hotelId: ID!, startDate: DateTime!, endDate: DateTime!): [Room!]!
+
+    # Booking queries
+    booking(id: ID!): Booking
+    bookings(userId: String!): [Booking!]!
+
+    #Room queries
+    room(id: ID!): Room
+    rooms(hotelId: ID!): [Room!]!
+
+}
+
+type Mutation {
+    # User mutations
+    signup(input: CreateUserInput!): AuthPayload!
+    login(input: LoginInput!): AuthPayload!
+
+    # Hotel mutations
+    createHotel(input: CreateHotelInput!): Hotel!
+    updateHotel(id: ID!, input: UpdateHotelInput!): Hotel!
+    deleteHotel(id: ID!): Hotel!
+
+    # Booking mutations
+    createBooking(input: CreateBookingInput!): Booking!
+    updateBooking(id: ID!, input: CreateBookingInput!): Booking!
+
+    # Room mutations
+    createRoom(input: CreateRoomInput!): Room!
+    updateRoom(id: ID!, input: UpdateRoomInput!): Room!
+}
+
+type User {
+    id: ID!
+    email: EmailAddress!
+    name: String!
+    role: String!
+    bookings: [Booking!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Hotel {
+    id: ID!
+    name: String!
+    description: String!
+    price: Float!
+    isDeleted: Boolean!
+    amenities: [String!]!
+    images: [String!]!
+    bookings: [Booking!]!
+    totalRooms: Int!
+    rooms: [Room!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    userId: String
+    user: User!
+    address: String
+    phoneNumber: String
+}
+
+type Room {
+    id: ID!
+    hotelId: String!
+    roomType: String!
+    price: Float!
+    features: [String!]!
+    hotel: Hotel!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Booking {
+    id: ID!
+    userId: String!
+    roomId: String!
+    startDate: DateTime!
+    endDate: DateTime!
+    totalPrice: Float!
+    status: BookingStatus!
+    guestCount: Int!
+    specialRequests: String
+    user: User!
+    room: Room!
+    hotel: Hotel!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+
+# Input types
+input CreateUserInput {
+    email: EmailAddress!
+    password: String!
+    role: String!
+    name: String!
+}
+
+input LoginInput {
+    email: EmailAddress!
+    password: String!
+}
+
+input CreateHotelInput {
+    name: String!
+    description: String
+    price: Float!
+    availableRooms: Int!
+    amenities: [String]
+    images: [String]
+    address: String
+    phoneNumber: String
+}
+
+input UpdateHotelInput {
+    name: String
+    description: String
+    price: Float
+    amenities: [String]
+    availableRooms: Int
+    images: [String]
+    address: String
+    phoneNumber: String
+}
+
+input CreateBookingInput {
+    roomId: String
+    startDate: DateTime
+    endDate: DateTime
+    guestCount: Int
+    status: BookingStatus
+    specialRequests: String
+    totalPrice: Float
+}
+
+
+input CreateRoomInput {
+    hotelId: String!
+    roomType: String!
+    price: Float!
+    features: [String!]
+}
+
+input UpdateRoomInput {
+    roomType: String
+    price: Float
+    features: [String!]
+}
+
+type AuthPayload {
+    token: String!
+    user: User!
+}
+
+enum BookingStatus {
+    PENDING
+    CONFIRMED
+    CANCELLED
+}
