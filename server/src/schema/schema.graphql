@@ -10,8 +10,6 @@ type Query {
     # Hotel queries
     hotel(id: ID!): Hotel
     hotels(amenities: [String!], minPrice: Float, maxPrice: Float, rating: Float, location: String): [Hotel!]!
-    availableRooms(hotelId: ID!, startDate: DateTime!, endDate: DateTime!): [Room!]!
-
     # Booking queries
     booking(id: ID!): Booking
     bookings(userId: String!): [Booking!]!

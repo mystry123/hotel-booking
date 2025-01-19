@@ -21,13 +21,22 @@ export const app = express();
 const port = process.env.PORT || 4000;
 
 try {
+    /**
+     * Load GraphQL type definitions from schema files.
+     */
     const typeDefs = loadFilesSync(path.join(__dirname, './schema/schema.graphql'));
 
+    /**
+     * Create an executable GraphQL schema.
+     */
     const schema = makeExecutableSchema({
         typeDefs,
         resolvers,
     });
 
+    /**
+     * Initialize Apollo Server with the created schema.
+     */
     const server = new ApolloServer({
         schema,
         formatError: (error) => {
@@ -38,10 +47,16 @@ try {
 
     await server.start();
 
+    /**
+     * Middleware setup.
+     */
     app.use(cors());
     app.use(bodyParser.json());
     app.use(authenticate);
 
+    /**
+     * Set up the /graphql endpoint with Apollo Server middleware.
+     */
     app.use('/graphql', expressMiddleware(server, {
         context: async ({ req }) => {
             return {
@@ -50,7 +65,14 @@ try {
         }
     }));
 
+    /**
+     * Connect to the database.
+     */
     await connectDB();
+
+    /**
+     * Start the server if not running in test mode.
+     */
 
     if (process.env.NODE_ENV !== 'test') {
         app.listen({ port: port }, () => {

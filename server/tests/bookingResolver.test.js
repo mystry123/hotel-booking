@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { app } from '../src/index.js'; // Adjust the path as needed
+import { app } from '../src/index.js';
 
 describe('Booking Resolvers', () => {
     let token;
@@ -8,6 +8,9 @@ describe('Booking Resolvers', () => {
     let hotelId;
     let userId;
 
+    /**
+     * Before all tests, sign up and log in to get a token, create a hotel, and create a room.
+     */
     beforeAll(async () => {
         // Sign up and log in to get a token
         await request(app)
@@ -73,6 +76,10 @@ describe('Booking Resolvers', () => {
         roomId = roomResponse.body.data.createRoom.id;
     });
 
+    /**
+     * Test case for creating a booking.
+     * Sends a GraphQL mutation to create a booking and checks if the response contains the correct status.
+     */
     it('should create a booking', async () => {
         const response = await request(app)
             .post('/graphql')
@@ -92,6 +99,10 @@ describe('Booking Resolvers', () => {
         expect(response.body.data.createBooking.status).toBe('CONFIRMED');
     });
 
+    /**
+     * Test case for updating a booking.
+     * Sends a GraphQL mutation to update a booking and checks if the response contains the correct status.
+     */
     it('should update a booking', async () => {
         const response = await request(app)
             .post('/graphql')
@@ -110,6 +121,10 @@ describe('Booking Resolvers', () => {
         expect(response.body.data.updateBooking.status).toBe('CANCELLED');
     });
 
+    /**
+     * Test case for fetching a booking by ID.
+     * Sends a GraphQL query to fetch a booking by ID and checks if the response contains the correct ID.
+     */
     it('should fetch a booking by ID', async () => {
         const response = await request(app)
             .post('/graphql')
@@ -127,6 +142,10 @@ describe('Booking Resolvers', () => {
         expect(response.body.data.booking.id).toBe(bookingId);
     });
 
+    /**
+     * Test case for fetching bookings by user ID.
+     * Sends a GraphQL query to fetch bookings by user ID and checks if the response contains an array of bookings.
+     */
     it('should fetch bookings by user ID', async () => {
         const response = await request(app)
             .post('/graphql')

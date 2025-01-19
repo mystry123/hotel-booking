@@ -1,8 +1,12 @@
 import request from 'supertest';
-import {app}     from '../src/index.js';
+import { app } from '../src/index.js';
 
 describe('Authentication', () => {
 
+    /**
+     * Test case for signing up a new user.
+     * Sends a GraphQL mutation to sign up a new user and checks if the response contains the correct email.
+     */
     it('should sign up a new user', async () => {
         const response = await request(app)
             .post('/graphql')
@@ -24,6 +28,10 @@ describe('Authentication', () => {
         expect(response.body.data.signup.user.email).toBe('test@example.com');
     });
 
+    /**
+     * Test case for logging in an existing user.
+     * Sends a GraphQL mutation to log in an existing user and checks if the response contains the correct email.
+     */
     it('should log in an existing user', async () => {
         const response = await request(app)
             .post('/graphql')
@@ -44,6 +52,10 @@ describe('Authentication', () => {
         expect(response.body.data.login.user.email).toBe('test@example.com');
     });
 
+    /**
+     * Test case for logging in with incorrect credentials.
+     * Sends a GraphQL mutation to log in with incorrect credentials and checks if the response contains errors.
+     */
     it('should not log in with incorrect credentials', async () => {
         const response = await request(app)
             .post('/graphql')
@@ -65,6 +77,4 @@ describe('Authentication', () => {
         expect(response.body.errors).toBeDefined();
     });
 
-
-    // Add more tests here
 });

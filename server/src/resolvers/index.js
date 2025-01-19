@@ -1,4 +1,3 @@
-// server/src/resolvers/index.js
 import userResolvers from './userResolvers.js';
 import hotelResolvers from './hotelResolvers.js';
 import bookingResolvers from './bookingResolvers.js';

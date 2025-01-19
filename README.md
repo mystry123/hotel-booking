@@ -1,4 +1,4 @@
-# hotel-# Hotel Booking
+# Hotel Booking
 
 ## Project Description
 Hotel Booking is a web application built with React and Node.js that allows users to book hotel rooms online. The application provides features such as user authentication, room availability checking, and booking management.
@@ -8,9 +8,12 @@ Hotel Booking is a web application built with React and Node.js that allows user
 - **Browse Available Rooms**: Users can view available hotel rooms and their details.
 - **Book and Manage Reservations**: Users can book rooms and manage their reservations.
 - **View Booking History**: Users can view their past bookings.
+- **User Roles**:
+    - **User**: Can book hotel rooms and manage their reservations.
+    - **Admin**: Can add, update, and delete hotels.
 
 ## Technologies Used
-- **Frontend**: React, Vite, Bootstrap, Axios
+- **Frontend**: React, Vite, Bootstrap, Apollo Client
 - **Backend**: Node.js, Express, MongoDB, JWT for authentication, GraphQL with Apollo Server
 - **Testing**: Jest, Supertest
 - **Containerization**: Docker, Docker Compose
@@ -66,17 +69,5 @@ Hotel Booking is a web application built with React and Node.js that allows user
 2. **To run server tests locally**:
     ```sh
     cd server
-    npm test
+    npm run test
     ```
-
-3. **To run client tests**:
-    ```sh
-    cd ../client
-    npm test
-    ```
-
-## Code Coverage
-
-To generate code coverage reports, run the following command in the `server` directory:
-```sh
-npm run coverage

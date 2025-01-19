@@ -60,6 +60,7 @@ useEffect(() => {
             address: hotel.address,
             phoneNumber: hotel.phoneNumber,
             rooms: hotel.rooms.map(room => ({
+                id: room.id,
                 roomType: room.roomType,
                 price: room.price,
                 features: room.features
@@ -102,7 +103,6 @@ useEffect(() => {
 
     const handleFileUpload = (file) => {
         setUploadedFiles(prev => [...prev, file]);
-        // Here you can handle the file, e.g., send it to a server
        showToast(`File "${file.name}" uploaded successfully`);
     };
 
@@ -164,7 +164,6 @@ useEffect(() => {
                     return responseData?.secure_url;
                 });
 
-                // Wait for all uploads to complete
                 const results = await Promise.all(uploadPromises);
                 // Filter out null values (from existing URLs) and add to uploadedUrls
                 uploadedUrls = results.filter(url => url !== null);
@@ -202,6 +201,8 @@ useEffect(() => {
 
                 // Update rooms
                 const roomPromises = values.rooms.map(room => {
+
+                    console.log('room', room);
                     if (room.id) {
                         return updateRoom({
                             variables: {
