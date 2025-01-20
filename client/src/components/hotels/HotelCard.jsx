@@ -126,7 +126,7 @@ const HotelCard = ({ hotel }) => {
                             }}
                             onClick={() => setShowModal(true)}
                         >
-                            {user?.role === "user" ? "Book Now":  "View Details" }
+                       {!user ? "View Details" : user.role === "user" ? "Book Now" : "View Details and Bookings"}
                         </Button>
                         {user?.role === 'admin' && (
                             <>
