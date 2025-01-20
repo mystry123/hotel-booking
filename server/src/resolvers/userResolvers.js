@@ -71,7 +71,7 @@ const userResolvers = {
                 });
                 await user.save();
 
-                const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+                const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '24h' });
 
                 return { token, user };
             } catch (e) {
@@ -104,7 +104,7 @@ const userResolvers = {
                 throw new GraphQLError('Invalid credentials');
             }
 
-            const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+            const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '24h' });
 
             return { token, user };
         },
