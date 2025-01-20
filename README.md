@@ -71,3 +71,8 @@ Hotel Booking is a web application built with React and Node.js that allows user
     cd server
     npm run test
     ```
+
+## User Registration
+
+- **Admin**: To add a hotel, you need to register as an admin.
+- **User**: To book a room, you need to register as a user.
